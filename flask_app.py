@@ -6,7 +6,7 @@ from wtforms.validators import DataRequired
 
 app = Flask(__name__)
 app.secret_key = 'happypuppy73'
-app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:////home/LawrenceW3/sites/etsydemo/tmp/database.db'
+app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:////home/LFW3/sites/etsydemo/tmp/database.db'
 db = SQLAlchemy(app)
 
 class listing(db.Model):
@@ -79,6 +79,12 @@ def listing_delete(listing_id):
     listing.query.filter_by(id=listing_id).delete()
     db.session.commit()
     return render_template('listing_delete_confirm.html', listid=listing_id)
+
+@app.route('/listing/buy/<listing_id>')
+def listing_buy(listing_id):
+    listing.query.filter_by(id=listing_id).buy()
+    db.session.commit()
+    return render_template('listing_buy.html', listid=listing_id)
 
 @app.route('/about')
 def about():
